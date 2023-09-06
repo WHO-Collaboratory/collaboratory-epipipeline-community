@@ -26,7 +26,7 @@ This is a public repository, please feel free to invite other interested experts
 We are building a welcoming and diverse global community from a range of disciplines and sectors. We care about making this a safe place for new and existing contributors. We therefore invite you to read our [Code of Conduct](https://github.com/WHO-Collaboratory/collaboratory-epipipeline-community/blob/main/CODE_OF_CONDUCT.md) to ensure you are ready to participate 
 
 ## Resources
-* [Workshop concept note]()
+* [Workshop concept note](https://github.com/WHO-Collaboratory/collaboratory-epipipeline-community/raw/main/materials/Encl_ConceptNote.pdf)
 * [Epiverse TRACE page](https://github.com/epiverse-trace)
 * [Epiparameter Community](https://github.com/WorldHealthOrganization/collaboratory-epiparameter-community/)
 
