@@ -27,7 +27,8 @@ We are building a welcoming and diverse global community from a range of discipl
 
 ## Resources
 * [Workshop concept note]()
-* [Epiverse TRACE page]()
+* [Epiverse TRACE page](https://github.com/epiverse-trace)
+* [Epiparameter Community](https://github.com/WorldHealthOrganization/collaboratory-epiparameter-community/)
 
 ## Contact us 
 > For more information on this project, you can contact us at collaboratory@who.int
