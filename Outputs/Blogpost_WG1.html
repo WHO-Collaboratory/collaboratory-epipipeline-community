@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-10-20">
+
+<title>User-defined pipelines: tagging the landscape of outbreak analytic tasks</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="Blogpost_WG1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Blogpost_WG1_files/libs/quarto-html/quarto.js"></script>
+<script src="Blogpost_WG1_files/libs/quarto-html/popper.min.js"></script>
+<script src="Blogpost_WG1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Blogpost_WG1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Blogpost_WG1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Blogpost_WG1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Blogpost_WG1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Blogpost_WG1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Blogpost_WG1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">User-defined pipelines: tagging the landscape of outbreak analytic tasks</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">outbreak analytics</div>
+    <div class="quarto-category">pipeline approach</div>
+    <div class="quarto-category">Epiverse-TRACE</div>
+    <div class="quarto-category">WHO Collaboratory</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Carmen Tamayo <a href="https://orcid.org/0000-0003-4184-2864" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+             <p>Karim Mané </p>
+             <p>Christian Althaus </p>
+             <p>Finlay Campbell </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 20, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p><br> Outbreak response interventions rely on the comprehensive analysis and integration of diverse sources of data, which makes outbreak analytics an essential component of an epidemic preparedness plan (1). However, during most responses, outbreak analytic pipelines are either absent or fragmented, as they are usually developed reactively mid-outbreak (2). This results in inefficiencies in the analytical process, which ultimately hinder the timeliness and effectiveness of the response (3). Further, the increasing variety of data sources and complexity of the analytical methods used in epidemic response activities require innovative solutions and tools that enable the integration and interpretation of data by the users. Despite the good progress made by existing initiatives (4,5), there is still a pressing need for robust and reliable pipelines for epidemiologists and analyst to gain situational awareness and inform decision-making during an outbreak. These pipelines need to be developed by considering the needs of the users in the field, who are often required to make decisions in high-pressure situations, with important limitations, such as the time constraints for learning how to use new or complex tools, or the lack of literacy in programming languages, like R or Python.</p>
+<section id="the-pipeline-approach" class="level3">
+<h3 class="anchored" data-anchor-id="the-pipeline-approach">The pipeline approach</h3>
+<p><br> This approach divides outbreak analytic tasks into smaller, more manageable modules, depending on the stage of the outbreak, i.e., early, middle, and late outbreak tasks (Figure 1). This modular approach also provides the flexibility to incorporate different methods and tools that are developed independently, which enhances the robustness of the analysis. Pipelines consist in a combination of tools and code to enable their interoperability, by standardising outputs format so that they can be used as inputs by the subsequent tool in the workflow. In this manner, users can provide their data as an input of the pipeline, and the desired result or estimate is generated as an output, streamlining the analytical process. The pipeline approach has clear advantages when compared to the typical workflows used in outbreak analytics, where scripts are manually developed from scratch for each investigation. This is a tedious, error-prone process, that the pipeline approach aims to optimise. <br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Blogpost_WG1_files/pipelines_epiverse.png" class="img-fluid figure-img" width="600"></p>
+<figcaption class="figure-caption">Figure 1. Analytic pipelines according to the stage of an outbreak</figcaption>
+</figure>
+</div>
+<p>The <code>episoap</code> R package (6) has been developed to facilitate the implementation of the pipeline approach into users’ analytical workflows. This package provides a repository of curated outbreak analytic pipelines, in the form of R markdown (.Rmd) report templates. Users can use these templates to input their data and, when knitting these files, outbreak reports are generated.</p>
+<p><code>episoap</code> system of report templates has several advantages. Firstly, they use literate programming (7), in which descriptive text and code are combined in the same document. This means that figures and statistics are generated dynamically as the code is updated, with no need to swap from statistical software, e.g., Excel or RStudio, and a word processor, e.g., Microsoft Word, as outputs of the analysis are automatically updated. Further, these templates’ output consists in a report that describes the analysis and results, that can be shared directly with decision makers, other analysts, or the wider public. Lastly, since the pipelines included in these templates have been pre-developed, the use of <code>episoap</code> requires minimum R literacy. These advantages address the main issues of users in the field, by reducing the necessary time, effort, and technical requirements needed to conduct outbreak analytic tasks.</p>
+</section>
+<section id="building-on-episoap-user-defined-outbreak-analytic-pipelines" class="level3">
+<h3 class="anchored" data-anchor-id="building-on-episoap-user-defined-outbreak-analytic-pipelines">Building on <code>episoap</code>: user-defined outbreak analytic pipelines</h3>
+<p><br> The main limitation of the repository of report templates provided by <code>episoap</code> is that the content of pipelines included in the package are fixed, and users are not able to make changes, such as removing or adding analytical steps. This lack of flexibility may be too restrictive for users, since ideally, they would have access to tools that are adaptable to their specific circumstances.</p>
+<p>To address this limitation, we propose an approach that enables users to define their own pipelines, by selecting and combining the desired outbreak analytic tasks. This approach relies on a system of tags, which specify relevant epidemiological and analytical characteristics of the outbreak, and are used to categorise each code chunk included in the report templates. These tags are then used as arguments of an R function in <code>episoap</code>, which selects the corresponding chunks to create custom .Rmd report templates, that are tailored to the outbreak’s circumstances (Figure 2). This way, components of a pipeline can be taken apart and used as building blocks for new, user-defined pipelines.</p>
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Blogpost_WG1_files/proposed_pipeline_approach.png" class="img-fluid figure-img" width="600"></p>
+<figcaption class="figure-caption">Figure 2. Proposed approach to generate user-defined pipelines</figcaption>
+</figure>
+</div>
+</section>
+<section id="tagging-the-outbreak-analytic-landscape" class="level3">
+<h3 class="anchored" data-anchor-id="tagging-the-outbreak-analytic-landscape">Tagging the outbreak analytic landscape</h3>
+<p><br> The system proposed in this article consists in the identification of those dimensions that a user will likely consider when deciding which analysis to conduct in an outbreak investigation, and that will therefore shape the resulting analytical pipeline. These dimensions are then assigned tags that specify the characteristics of the outbreak and the analytical step.<br> Table 1 contains a summary of the list of dimensions and tags identified so far by the authors of this article.</p>
+<p><em>here I’m planning to include a use case of a specific outbreak scenario, with the corresponding tags and code chunks, and how these are used as arguments, when the prototype of the function is ready for use</em></p>
+<div id="tbl-letters" class="anchored">
+<table class="table">
+<caption>Table&nbsp;1: List of identified dimensions, with their corresponding tags</caption>
+<colgroup>
+<col style="width: 56%">
+<col style="width: 44%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>Tags</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Epidemic phase</td>
+<td>Single cases/ clusters <br> Local outbreak <br> Regional epidemic <br> Pandemic <br> Endemic <br> Post-intervention</td>
+</tr>
+<tr class="even">
+<td>Type of transmission</td>
+<td>Direct contact <br> Food/water-borne <br> Vector-borne</td>
+</tr>
+<tr class="odd">
+<td>Type of data</td>
+<td>Individual data <br> Aggregated counts <br> Time series <br> Seroprevalence <br> Contact data <br> Social mixing</td>
+</tr>
+<tr class="even">
+<td>Study questions</td>
+<td>Infection characteristics <br> Transmissibility <br> Severity <br> Immunity <br> Impact of interventions <br> Vaccination <br> Surveillance bias</td>
+</tr>
+<tr class="odd">
+<td>Temporal scope</td>
+<td>Retrospective analysis <br> Situational analysis <br> Forecasting models <br> Projective models</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+</section>
+<section id="what-next" class="level3">
+<h3 class="anchored" data-anchor-id="what-next">What next?</h3>
+<p><br> The work described in this article was carried out during a Hackathon, hosted by the WHO Pandemic Hub and Epiverse-TRACE (see <a href="https://github.com/WHO-Collaboratory/collaboratory-epipipeline-community/discussions/7">GitHub repository</a> for more details). We are currently working to develop a prototype of the described <code>episoap</code> function, and to expand the list of tags included in Table 1.</p>
+<p>However, we believe that this project requires input from the wider community, particularly in two key aspects. The first one is to <strong>identify outbreak tasks and map them to tags in a way that is relevant for users</strong>, so that the pipeline modules included in {episoap} are comprehensive, and the package can be used in an intuitive manner. Secondly, to increase the variety of methods and tools used in the report templates. While the pipelines in {episoap} already provide alternatives to conduct certain analysis steps, e.g., using different R packages to estimate Rt in the transmissibility pipeline, users would benefit from a wider variety of options, particularly to include methods that are specific to certain diseases or contexts. For this purpose, we propose the creation of a <strong>repository of tagged scripts, sourced by members of the outbreak analytics community</strong>, whose code could then be included in <code>episoap</code> (or extracted directly from such repository if preferred). This repository should be easily accessible by all members of the community, and therefore hosted by an international institution such as the WHO, similarly to their <a href="https://github.com/WorldHealthOrganization/collaboratory-epiparameter-community">repository of epidemiological parameters</a>.</p>
+<section id="references" class="level4">
+<h4 class="anchored" data-anchor-id="references">References</h4>
+<ol type="1">
+<li>Polonsky JA, Baidjoe A, Kamvar ZN, Cori A, Durski K, Edmunds WJ, et al.&nbsp;Outbreak analytics: a developing data science for informing the response to emerging pathogens. Philos Trans R Soc B Biol Sci. 2019 May 20;374(1776):20180276.</li>
+<li>Morgan O, Pebody R. The WHO Hub for Pandemic and Epidemic Intelligence; supporting better preparedness for future health emergencies. Eurosurveillance. 2022 May 19;27(20):2200385.</li>
+<li>Kucharski AJ, Hodcroft EB, Kraemer MUG. Sharing, synthesis and sustainability of data analysis for epidemic preparedness in Europe. Lancet Reg Health - Eur. 2021 Oct 1;9:100215.</li>
+<li><a href="https://github.com/epiverse-trace">Epiverse-TRACE</a></li>
+<li><a href="https://appliedepi.org">AppliedEpi</a></li>
+<li><a href="https://github.com/epiverse-trace/episoap/tree/main">Episoap R package</a></li>
+<li>D. E. Knuth, Literate Programming, The Computer Journal, Volume 27, Issue 2, 1984, Pages 97–111, https://doi.org/10.1093/comjnl/27.2.97</li>
+</ol>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
